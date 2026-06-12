@@ -1,478 +1,220 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <title>뜨개 카운터</title>
+
+        <style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+                padding: 20px;
+                text-align: center;
+            }
 
-<head>
+            h1 {
+                font-size: 24px;
+            }
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+            .title-box {
+                margin-bottom: 40px;
+            }
+
+            .label {
+                font-size: 18px;
+                text-align: left;
+                margin-left: 5%;
+            }
+
+            input {
+                width: 90%;
+                padding: 12px;
+                font-size: 18px;
+                margin: 8px 0 20px;
+            }
+
+            .pattern {
+                font-size: 24px;
+                margin: 40px 0;
+                display: flex;
+                justify-content: center;
+                gap: 8px;
+                flex-wrap: wrap;
+            }
+
+            .active {
+                border-bottom: 5px solid teal;
+                padding-bottom: 4px;
+                font-size: 24px;
+            }
+
+            .buttonWrap {
+                display: flex;
+                justify-content: center;
+                gap: 15px;
+            }
+
+            button {
+                font-size: 22px;
+                padding: 18px 35px;
+                border-radius: 15px;
+                border: none;
+                color: white;
+            }
+
+            .prev {
+                background: #999;
+            }
+
+            .next {
+                background: black;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="title-box">
+            <h1>🧶 소나의 뜨개 카운터</h1>
+            <h10>소피후드를 향해~~ </h10>
+        </div>
+
+        <div class="label">사이클</div>
+
+        <input id="patternInput" value="1-2-3-4-3-4-3-4" />
+
+        <div class="label">코</div>
+
+        <input id="stitchInput" type="number" value="1" />
+
+        <div class="pattern" id="patternView"></div>
+
+        <div class="buttonWrap">
+            <button class="prev" onclick="prev()">이전</button>
+
+            <button id="mainButton" class="next" onclick="buttonClick()">다음</button>
+        </div>
+
+        <script>
+            let pattern = [];
+
+            let index = 0;
+
+            let cycle = 1;
 
-<title>뜨개 카운터</title>
+            let stitch = 1;
 
+            let editing = false;
 
-<style>
+            function loadPattern() {
+                pattern = document.getElementById('patternInput').value.split('-');
 
-body {
+                render();
+            }
 
-  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-  padding:20px;
-  text-align:center;
+            function render() {
+                let html = '';
 
-}
-
-
-h1 {
-
-  font-size:24px;
-
-}
-
-
-.label {
-
-  font-size:18px;
-  text-align:left;
-  margin-left:5%;
-
-}
-
-
-
-input {
-
-  width:90%;
-  padding:12px;
-  font-size:18px;
-  margin:8px 0 20px;
-
-}
-
-
-
-.pattern {
-
-  font-size:24px;
-  margin:40px 0;
-  display:flex;
-  justify-content:center;
-  gap:8px;
-  flex-wrap:wrap;
-
-}
-
-
-
-.active {
-
-  border-bottom:5px solid teal;
-  padding-bottom:4px;
-
-}
-
-
-
-button {
-
-  font-size:22px;
-  padding:18px 45px;
-  border-radius:15px;
-  border:none;
-  background:black;
-  color:white;
-
-}
-
-
-
-.info {
-
-  margin-top:30px;
-  font-size:20px;
-
-}
-
-
-</style>
-
-</head>
-
-
-
-<body>
-
-
-
-<h1>🧶 뜨개 카운터</h1>
-
-
-
-
-<div class="label">
-사이클
-</div>
-
-
-<input
-id="patternInput"
-value="1-2-3-4-3-4-3-4"
->
-
-
-
-
-<div class="label">
-코
-</div>
-
-
-<input
-id="stitchInput"
-type="number"
-value="1"
->
-
-
-
-
-
-<div class="pattern" id="patternView"></div>
-
-
-
-
-
-<button id="mainButton" onclick="buttonClick()">
-
-다음
-
-</button>
-
-
-
-
-
-<!-- <div class="info">
-
-
-완료 사이클 :
-<span id="cycleView">1</span>
-
-
-<br>
-
-
-현재 코 :
-<span id="stitchView">1</span>
-
-
-</div> -->
-
-
-
-
-
-<script>
-
-
-let pattern = [];
-
-let index = 0;
-
-let cycle = 1;
-
-let stitch = 1;
-
-let editing = false;
-
-
-
-
-
-
-function loadPattern(){
-
-
-pattern =
-document
-.getElementById("patternInput")
-.value
-.split("-");
-
-
-render();
-
-
-}
-
-
-
-
-
-
-
-function render(){
-
-
-let html = "";
-
-
-
-pattern.forEach((num,i)=>{
-
-
-if(i === index){
-
-
-html +=
-`
+                pattern.forEach((num, i) => {
+                    if (i === index) {
+                        html += `
 <span class="active">
 ${num}
 </span>
 `;
-
-}
-
-else{
-
-
-html +=
-`
+                    } else {
+                        html += `
 <span>
 ${num}
 </span>
 `;
+                    }
 
-}
+                    if (i < pattern.length - 1) {
+                        html += '-';
+                    }
+                });
 
+                document.getElementById('patternView').innerHTML = html;
+            }
 
+            function buttonClick() {
+                // 저장 모드
 
+                if (editing) {
+                    pattern = document.getElementById('patternInput').value.split('-');
 
-if(i < pattern.length - 1){
+                    index = 0;
 
-html += "-";
+                    cycle = 1;
 
-}
+                    stitch = 1;
 
+                    document.getElementById('stitchInput').value = 1;
 
-});
+                    editing = false;
 
+                    document.getElementById('mainButton').innerText = '다음';
 
+                    render();
 
+                    return;
+                }
 
+                next();
+            }
 
-document
-.getElementById("patternView")
-.innerHTML = html;
+            function next() {
+                index++;
 
+                if (index >= pattern.length) {
+                    index = 0;
 
+                    cycle++;
 
+                    stitch++;
 
+                    document.getElementById('stitchInput').value = stitch;
+                }
 
-document
-.getElementById("cycleView")
-.innerText = cycle;
+                render();
+            }
 
+            function prev() {
+                index--;
 
+                if (index < 0) {
+                    index = pattern.length - 1;
 
+                    if (cycle > 1) {
+                        cycle--;
 
+                        stitch--;
+                    }
+                }
 
-document
-.getElementById("stitchView")
-.innerText = stitch;
+                document.getElementById('stitchInput').value = stitch;
 
+                render();
+            }
 
+            // 사이클 수정
 
-}
+            document.getElementById('patternInput').addEventListener('input', () => {
+                editing = true;
 
+                document.getElementById('mainButton').innerText = '저장';
+            });
 
+            // 코 직접 수정
 
+            document.getElementById('stitchInput').addEventListener('change', (e) => {
+                stitch = Number(e.target.value);
 
+                render();
+            });
 
-
-
-function buttonClick(){
-
-
-
-// 저장 상태
-
-if(editing){
-
-
-
-pattern =
-document
-.getElementById("patternInput")
-.value
-.split("-");
-
-
-
-index = 0;
-
-cycle = 1;
-
-stitch = 1;
-
-
-
-document
-.getElementById("stitchInput")
-.value = 1;
-
-
-
-
-editing = false;
-
-
-
-
-document
-.getElementById("mainButton")
-.innerText = "다음";
-
-
-
-render();
-
-
-
-return;
-
-
-}
-
-
-
-
-
-next();
-
-
-
-}
-
-
-
-
-
-
-
-
-function next(){
-
-
-
-index++;
-
-
-
-
-// 한 사이클 완료
-
-if(index >= pattern.length){
-
-
-
-index = 0;
-
-
-
-cycle++;
-
-
-
-// 코 늘림
-
-stitch++;
-
-
-
-document
-.getElementById("stitchInput")
-.value = stitch;
-
-
-
-}
-
-
-
-
-render();
-
-
-
-}
-
-
-
-
-
-
-
-
-// 사이클 수정 감지
-
-document
-.getElementById("patternInput")
-.addEventListener(
-"input",
-()=>{
-
-
-editing = true;
-
-
-
-document
-.getElementById("mainButton")
-.innerText = "저장";
-
-
-
-});
-
-
-
-
-
-
-
-
-// 코 직접 수정
-
-document
-.getElementById("stitchInput")
-.addEventListener(
-"change",
-(e)=>{
-
-
-stitch =
-Number(e.target.value);
-
-
-
-render();
-
-
-
-});
-
-
-
-
-
-
-loadPattern();
-
-
-
-</script>
-
-
-
-</body>
-
+            loadPattern();
+        </script>
+    </body>
 </html>
