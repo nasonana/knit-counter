@@ -9,7 +9,7 @@
         <style>
             body {
                 font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-                padding: 20px;
+                padding: 16px;
                 text-align: center;
             }
 
@@ -22,13 +22,16 @@
             }
 
             .label {
+                width: 100%;
                 text-align: left;
-                margin-left: 5%;
                 font-size: 16px;
             }
 
             input {
-                width: 90%;
+                width: 100%;
+
+                box-sizing: border-box;
+
                 padding: 12px;
 
                 font-size: 18px;
@@ -38,6 +41,10 @@
                 border: 1px solid #ddd;
 
                 margin: 8px 0 20px;
+            }
+
+            .stitchInput {
+                margin-bottom: 0px;
             }
 
             .pattern {
@@ -127,7 +134,7 @@
 
         <div class="label">코</div>
 
-        <input id="stitchInput" type="number" value="1" />
+        <input id="stitchInput" class="stitchInput" type="number" value="1" />
 
         <div class="pattern" id="patternView"></div>
 
