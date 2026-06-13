@@ -198,6 +198,12 @@ ${num}
                 if (editing) {
                     pattern = document.getElementById('patternInput').value.split('-');
 
+                    // 코 값 확정
+                    stitch = Number(document.getElementById('stitchInput').value);
+
+                    // 위치 초기화
+                    index = 0;
+
                     editing = false;
 
                     document.getElementById('mainButton').innerText = '다음';
